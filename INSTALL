@@ -1,0 +1,66 @@
+Steps to install TM2C:
+------------------------
+
+Let TM2C_BASE be the base folder of the TM2C installation.
+
+1. Create the following directories:
+   	  * TM2C_BASE/external
+   	  * TM2C_BASE/external/include
+     	  * TM2C_BASE/external/lib
+   
+2. TM2C requires a message passing (MP) library. TM2C already supports ssmp
+   (http://lpd.epfl.ch/site/ssmp). Once you install the MP library on the
+   target platform, move the header files in TM2C_BASE/external/include and
+   the library file in TM2C_BASE/external/lib. For ssmp, these would be:
+       * ssmp.h
+       * ssmp_ARCH.h (where is ARCH is the target architecture
+       * libssmp.a
+
+3. (OPTIONAL )You can change several setting of TM2C in the 
+   TM2C_BASE/settings file
+
+4. (OPTIONAL) You can create platform specific versions of TM2C by taking the
+   following steps:
+   	     1. create a Makefile.PLATFORM_NAME file in TM2C_BASE/makefiles
+	     	(e.g., Makefile.Opteron)
+	     2. create a sys_PLATFORM_NAME.h file in TM2C_BASE/include
+	     	(e.g., sys_opteron.h) and implement the functions
+	     3. create a sys_PLATFORM_NAME.c file in TM2C_BASE/src
+	     	(e.g., sys_opteron.c) and implement the functions
+	     4. set PLATFORM=PLATFORM_NAME in the TM2C_BASE/Makefile
+
+5. Go to the TM2C_BASE directory and execute:
+      make clean all
+
+   This will generate TM2C_BASE/libtm2c.a and the following applications:
+    * apps/tm1 : simple microbenchmark
+    * apps/tm2 : simple microbenchmark
+    * apps/tm3 : simple microbenchmark
+    * apps/tm4 : simple microbenchmark
+    * apps/tm5 : simple microbenchmark
+    * apps/tm6 : simple microbenchmark
+    * apps/tm7 : simple microbenchmark
+    * apps/tm8 : simple microbenchmark
+    * apps/tm9 : simple microbenchmark
+    * bmarks/bank : a bank-like application
+    * bmarks/linkedlist : a linked list
+    * bmarks/hashtable : a hash table
+    * bmarks/mr : a MapReduce-like application
+    * bmarks/mp : testing the performance of message passing
+
+   You can (easily) execute these apps using the TM2C_BASE/run script as follows:
+       ./run NUM_CORES PATH_TO_APP [PARAMETERS]
+   
+   Without the script, TM2C is designed to accept the number of total cores as a 
+   first parameter, in the form: -total=NUM_CORES. For example:
+       ./bmarks/bank -total=4
+
+
+
+Tested platforms:
+-----------------
+
+TM2C has been tested on the following platforms:
+     * UMA and NUMA x86
+     * SPARC (UltraSPARC T2)
+     * Tilera (Tile-GX36, TILEPro64)

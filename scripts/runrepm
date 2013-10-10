@@ -1,0 +1,24 @@
+#!/bin/sh
+
+
+if [ $# -lt 2 ]; then
+    echo "Usage: runrepm PROGRAMS NUMCORES [REPETITIONS] [PARAMS]"
+
+else
+    prog=$1;
+    shift;
+    ues=$1;
+    shift;
+    if [ $1" " != " " ]; then
+	reps=$1;
+	shift;
+    else
+	reps=5;
+    fi
+
+    for pr in $prog;
+    do
+	./runrep $pr $ues $reps $@;
+    done
+
+fi

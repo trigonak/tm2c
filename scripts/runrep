@@ -1,0 +1,39 @@
+#!/bin/sh
+
+slog="screenlog.0";
+
+if [ -f $slog ]; then
+    rm $slog;
+
+fi
+
+
+if [ $# -lt 2 ]; then
+    echo "Usage: runrep PROGRAM NUMCORES [REPETITIONS] [PARAMS]"
+
+else
+    prog=$1;
+    shift;
+    ues=$1;
+    shift;
+    if [ $1" " != " " ]; then
+	reps=$1;
+	shift;
+    else
+	reps=5;
+    fi
+
+    for (( i=1; i<=$reps; i++ ))
+    do
+	screen -L ./run $ues rc.hosts ./$prog $@;
+
+    done
+    
+    echo $prog " :: @ " $ues  " cores :: " $@;
+    awk -f runrep.awk $slog;
+    
+
+fi
+
+
+exit

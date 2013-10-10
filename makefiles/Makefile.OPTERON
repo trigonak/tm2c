@@ -1,0 +1,19 @@
+PLATFORM_NUMA=1
+
+PLATFORM_CFLAGS = -O3 -march=opteron
+PLATFORM_LDFLAGS = 
+PLATFORM_LIBS = -lssmp -lrt
+
+## fixed defines
+PLATFORM_DEFINES +=    -DPLATFORM_OPTERON \
+		       -DPLATFORM_MCORE_SSMP \
+		       -DPREFETCH_LOAD \
+		       -DSSMP
+
+ifeq ($(PLATFORM_NUMA),1)
+PLATFORM_LIBS += -lnuma
+PLATFORM_DEFINES += -DPLATFORM_NUMA
+endif
+
+ARCHIVE_SRCS_PURE += tm2c_malloc.c
+ARCHIVE_SRCS_PURE += sys_opteron.c

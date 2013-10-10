@@ -1,0 +1,19 @@
+PLATFORM_NUMA=1
+
+PLATFORM_CFLAGS = -O3
+PLATFORM_LDFLAGS = 
+PLATFORM_LIBS = -lssmp -lrt
+
+## fixed defines
+PLATFORM_DEFINES +=    -DPLATFORM_XEON \
+		       -DSSMP
+
+ifeq ($(PLATFORM_NUMA),1)
+PLATFORM_LIBS += -lnuma
+PLATFORM_DEFINES += -DPLATFORM_NUMA
+endif
+
+HAS_TASKLIB = no
+
+ARCHIVE_SRCS_PURE += tm2c_malloc.c
+ARCHIVE_SRCS_PURE += sys_xeon.c
