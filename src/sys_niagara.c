@@ -98,7 +98,7 @@ nodeid_t TM2C_ID;
 nodeid_t TM2C_NUM_NODES;
 
 
-#ifndef NOCM 			/* if any other CM (greedy, wholly, faircm) */
+#if !defined(NOCM) && !defined(BACKOFF_RETRY) /* if any other CM (greedy, wholly, faircm) */
 int32_t **cm_abort_flags;
 int32_t *cm_abort_flag_mine;
 #if defined(GREEDY) && defined(GREEDY_GLOBAL_TS)
@@ -221,7 +221,7 @@ sys_app_init(void)
   APP_EXEC_ORDER_END;
 #endif /* PGAS */
 
-#ifndef NOCM 			/* if any other CM (greedy, wholly, faircm) */
+#if !defined(NOCM) && !defined(BACKOFF_RETRY) /* if any other CM (greedy, wholly, faircm) */
   cm_abort_flag_mine = cm_init(NODE_ID());
   *cm_abort_flag_mine = NO_CONFLICT;
 
@@ -259,7 +259,7 @@ sys_dsl_init(void)
 
   BARRIERW;
 
-#ifndef NOCM 			/* if any other CM (greedy, wholly, faircm) */
+#if !defined(NOCM) && !defined(BACKOFF_RETRY) /* if any other CM (greedy, wholly, faircm) */
   cm_abort_flags = (int32_t **) malloc(TOTAL_NODES() * sizeof(int32_t *));
   assert(cm_abort_flags != NULL);
 
@@ -643,7 +643,7 @@ global_barrier()
 
 }
 
-#if !defined(NOCM)	/* if any other CM (greedy, wholly, faircm) */
+#if !defined(NOCM) && !defined(BACKOFF_RETRY) /* if any other CM (greedy, wholly, faircm) */
 int32_t*
 cm_init(nodeid_t node)
 {
