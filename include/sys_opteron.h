@@ -130,6 +130,7 @@ INLINED tm_addr_t
 to_addr(tm_intern_addr_t i_addr)
 {
 #ifdef PGAS
+  return (tm_addr_t)i_addr;
 #else
   return (tm_addr_t)i_addr;
 #endif
